@@ -25,14 +25,16 @@ public class UserRoleServiceImpl implements UserRoleService {
         this.dbInit();
     }
 
+
     @Override
     public void dbInit() {
         if (!isDbInit()) {
-        List<UserRole> roles = new ArrayList<>();
-        roles.add(new UserRole().setRole(Role.USER));
-        roles.add(new UserRole().setRole(Role.ADMIN));
+            List<UserRole> roles = new ArrayList<>();
 
-        this.roleRepository.saveAllAndFlush(roles);
+            roles.add(new UserRole().setRole(Role.USER));
+            roles.add(new UserRole().setRole(Role.ADMIN));
+
+            this.roleRepository.saveAllAndFlush(roles);
         }
     }
 
@@ -42,7 +44,8 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     public List<UserRoleViewDto> getAll() {
-        return this.roleRepository.findAll().stream()
+        return this.roleRepository.findAll()
+                .stream()
                 .map(r -> this.modelMapper.map(r, UserRoleViewDto.class))
                 .collect(Collectors.toList());
     }
