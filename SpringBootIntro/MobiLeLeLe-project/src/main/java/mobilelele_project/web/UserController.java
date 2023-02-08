@@ -1,39 +1,100 @@
 package mobilelele_project.web;
 
+import jakarta.validation.Valid;
+import mobilelele_project.domain.dtos.banding.UserLoginFormDto;
 import mobilelele_project.domain.dtos.banding.UserRegisterFormDto;
 import mobilelele_project.domain.dtos.view.UserRoleViewDto;
 import mobilelele_project.services.role.UserRoleService;
+import mobilelele_project.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/users")
 public class UserController extends BaseController {
+    public static final String BINDING_RESULT_PATH = "org.springframework.validation.BindingResult.";
+
     private final UserRoleService roleService;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRoleService roleService) {
+    public UserController(UserRoleService roleService, UserService userService) {
         this.roleService = roleService;
+        this.userService = userService;
     }
 
-    @GetMapping("/register")
-    public ModelAndView getRegister(ModelAndView modelAndView) {
-        List<UserRoleViewDto> roleServiceAll = this.roleService.getAll();
+    // http mappings
 
-        modelAndView.addObject("roles", roleServiceAll);
-        modelAndView.addObject("userRegister", new UserRegisterFormDto());
-
-        return super.view("auth-register", modelAndView);
+    @GetMapping("/register") // post method localhost:8080/users/register
+    public String getRegister(Model model) {
+        return "auth-register";
     }
 
     @PostMapping("/register")
-    public ModelAndView postRegister(UserRegisterFormDto userRegister) {
-        return super.redirect("auth-login");
+    public String postRegister(@Valid @ModelAttribute(name = "userRegisterForm") UserRegisterFormDto userRegisterInfo,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userRegisterForm", userRegisterInfo)
+                    .addFlashAttribute(BINDING_RESULT_PATH + "userRegisterForm", bindingResult);
+
+            return "redirect:register";
+        }
+
+        this.userService.registerUser(userRegisterInfo);
+
+        return "redirect:login";
+    }
+
+
+    @GetMapping("/login")
+    public ModelAndView getLogin() {
+        return super.view("auth-login");
+    }
+
+    @PostMapping("/login")
+    public ModelAndView postLogin(@Valid @ModelAttribute(name = "userLoginForm") UserLoginFormDto userLoginForm,
+                                  BindingResult bindingResult,
+                                  ModelAndView modelAndView) {
+
+        if (bindingResult.hasErrors()) {
+            return super.view("auth-login",
+                    modelAndView.addObject("userLoginForm", userLoginForm));
+        }
+
+        return super.redirect("/");
+    }
+
+    @PostMapping("/logout")
+    public ModelAndView postLogout() {
+        this.userService.logout();
+        return super.redirect("/");
+    }
+
+    // Model attributes
+
+    @ModelAttribute(name = "userRegisterForm")
+    public UserRegisterFormDto initUserRegisterFormDto() {
+        return new UserRegisterFormDto();
+    }
+
+    @ModelAttribute(name = "userLoginForm")
+    public UserLoginFormDto initUserLoginFormDto() {
+        return new UserLoginFormDto();
+    }
+
+    @ModelAttribute(name = "roles")
+    public List<UserRoleViewDto> getAllRoles() {
+        return this.roleService.getAll();
     }
 }

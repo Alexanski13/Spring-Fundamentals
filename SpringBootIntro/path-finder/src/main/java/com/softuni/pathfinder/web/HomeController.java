@@ -1,7 +1,8 @@
 package com.softuni.pathfinder.web;
 
-import com.softuni.pathfinder.domain.dto.MostCommentedRouteViewDto;
+import com.softuni.pathfinder.domain.dto.view.MostCommentedRouteViewDto;
 import com.softuni.pathfinder.service.RouteService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/")
 public class HomeController extends BaseController {
+    private static final String USERNAME_SESSION_KEY = "username";
     private final RouteService routeService;
 
     @Autowired
@@ -19,10 +21,15 @@ public class HomeController extends BaseController {
     }
 
     @GetMapping // localhost:8080 -> get request
-    public ModelAndView getHome(ModelAndView modelAndView) {
+    public ModelAndView getHome(ModelAndView modelAndView, HttpSession httpSession) {
+        final String username = httpSession.getAttribute(USERNAME_SESSION_KEY) != null
+                ? httpSession.getAttribute(USERNAME_SESSION_KEY).toString()
+                : "";
+
         final MostCommentedRouteViewDto mostCommented = routeService.getMostCommented();
 
         modelAndView.addObject("mostCommented", mostCommented);
+        modelAndView.addObject(USERNAME_SESSION_KEY, username);
 
         return super.view("index", modelAndView);
     }

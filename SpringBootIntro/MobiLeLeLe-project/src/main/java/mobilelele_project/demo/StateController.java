@@ -1,6 +1,7 @@
 package mobilelele_project.demo;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import mobilelele_project.domain.dtos.banding.UserRegisterFormDto;
@@ -45,7 +46,9 @@ public class StateController extends BaseController {
 
     @PostMapping("/register")
     public ModelAndView postRegister(UserRegisterFormDto userRegisterForm,
-                                     HttpSession httpSession) {
+                                     HttpServletRequest request) {
+
+        HttpSession httpSession = request.getSession();
 
         httpSession.setAttribute(STATE_USERNAME_KEY, userRegisterForm.getUsername());
 

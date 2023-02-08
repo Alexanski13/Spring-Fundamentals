@@ -1,4 +1,4 @@
-package com.softuni.pathfinder.domain.dto;
+package com.softuni.pathfinder.domain.dto.view;
 
 import com.softuni.pathfinder.domain.entities.Route;
 

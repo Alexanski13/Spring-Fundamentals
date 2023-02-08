@@ -1,6 +1,6 @@
 package com.softuni.pathfinder.service;
 
-import com.softuni.pathfinder.domain.dto.MostCommentedRouteViewDto;
+import com.softuni.pathfinder.domain.dto.view.MostCommentedRouteViewDto;
 import com.softuni.pathfinder.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,41 +1,36 @@
 <header th:fragment="navigation">
     <nav class="main-nav">
-        <ul>
-            <span th:if="${true}">
-                <li>
-                    <a href="/">Home</a>
-                </li>
-                <li>
-                    <a href="/auth/login">Login</a>
-                </li>
-                <li>
-                    <a href="/auth/register">Register</a>
-                </li>
-                <li>
-                    <a href="/about">About</a>
-                </li>
-            </span>
-            <span th:if="${false}">
-                <li>
-                    <a href="/">Add new route</a>
-                </li>
+        <ul th:if="${@loggedUser.id == null}">
+            <li>
+                <a th:href="@{/}">Home</a>
+            </li>
+            <li>
+                <a th:href="@{/auth/login}">Login</a>
+            </li>
+            <li>
+                <a th:href="@{/auth/register}">Register</a>
+            </li>
+            <li>
+                <a href="/about">About</a>
+            </li>
 
-                <li>
-                    <a href="/">Profile</a>
-                </li>
+        </ul>
+        <ul th:unless="${@loggedUser.id == null}">
+            <li>
+                <a href="/">Add new route</a>
+            </li>
 
-                <li>
-                    <a href="/">Logout</a>
-                </li>
+            <li>
+                <a href="/">Profile</a>
+            </li>
 
-                <li>
-                    <a href="/">Home</a>
-                </li>
+            <li th:if="${@loggedUser.isAdmin()}">
+                <a href="/">Admin</a>
+            </li>
 
-                <li>
-                    <a href="/">Admin</a>
-                </li>
-            </span>
+            <li>
+                <a th:href="@{/auth/logout}">Logout</a>
+            </li>
         </ul>
     </nav>
 </header>

@@ -1,46 +1,35 @@
-package mobilelele_project.domain.entities;
-
-import jakarta.persistence.*;
+package mobilelele_project.domain.dtos.model;
 
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "users")
-public class User extends BaseEntity {
+public class UserModel extends BaseEntityDto {
 
-    @Column
+    private String id; // –  username of the user.
     private String username; // –  username of the user.
-
-    @Column
     private String password; //– password of the user.
-
-    @Column
     private String firstName; //–  first name of the user.
-
-    @Column
     private String lastName; //–  last name of the user.
-
-    @Column
     private Boolean isActive; //– true OR false.
-
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private List<UserRole> role; //–  user's role (User or Admin).
-
-    @Column
+    private List<UserRoleModel> role; //–  user's role (User or Admin).
     private String imageUrl;//– a url of user's picture.
-
-    @Column
     private Date created; // a date and time.
-
-    @Column
     private Date modified;//– a date and time.
+
+    public String getId() {
+        return id;
+    }
+
+    public UserModel setId(String id) {
+        this.id = id;
+        return this;
+    }
 
     public String getUsername() {
         return username;
     }
 
-    public User setUsername(String username) {
+    public UserModel setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -49,7 +38,7 @@ public class User extends BaseEntity {
         return password;
     }
 
-    public User setPassword(String password) {
+    public UserModel setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -58,7 +47,7 @@ public class User extends BaseEntity {
         return firstName;
     }
 
-    public User setFirstName(String firstName) {
+    public UserModel setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -67,7 +56,7 @@ public class User extends BaseEntity {
         return lastName;
     }
 
-    public User setLastName(String lastName) {
+    public UserModel setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -76,16 +65,16 @@ public class User extends BaseEntity {
         return isActive;
     }
 
-    public User setActive(Boolean active) {
+    public UserModel setActive(Boolean active) {
         isActive = active;
         return this;
     }
 
-    public List<UserRole> getRole() {
+    public List<UserRoleModel> getRole() {
         return role;
     }
 
-    public User setRole(List<UserRole> role) {
+    public UserModel setRole(List<UserRoleModel> role) {
         this.role = role;
         return this;
     }
@@ -94,7 +83,7 @@ public class User extends BaseEntity {
         return imageUrl;
     }
 
-    public User setImageUrl(String imageUrl) {
+    public UserModel setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
         return this;
     }
@@ -103,7 +92,7 @@ public class User extends BaseEntity {
         return created;
     }
 
-    public User setCreated(Date created) {
+    public UserModel setCreated(Date created) {
         this.created = created;
         return this;
     }
@@ -112,8 +101,12 @@ public class User extends BaseEntity {
         return modified;
     }
 
-    public User setModified(Date modified) {
+    public UserModel setModified(Date modified) {
         this.modified = modified;
         return this;
+    }
+
+    public boolean isValid() {
+        return this.id != null;
     }
 }

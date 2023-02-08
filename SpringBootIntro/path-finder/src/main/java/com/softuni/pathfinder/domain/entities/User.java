@@ -18,7 +18,7 @@ public class User extends BaseEntity {
     @Column
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.DETACH})
     private Set<Role> roles;
 
     @Enumerated(EnumType.STRING)
@@ -60,11 +60,11 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public Set<Role> getRoles() {
+    public Set<Role> getRole() {
         return roles;
     }
 
-    public User setRoles(Set<Role> role) {
+    public User setRole(Set<Role> role) {
         this.roles = role;
         return this;
     }
