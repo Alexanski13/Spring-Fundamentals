@@ -1,0 +1,20 @@
+package softuni.examprepbattleships.domain.models;
+
+import lombok.*;
+
+import java.util.Date;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ShipModel {
+    private Long id;
+    private String name;
+    private Long health;
+    private Long power;
+    private Date created;
+    private CategoryModel category;
+    private UserModel user;
+}

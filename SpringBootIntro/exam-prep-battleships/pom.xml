@@ -8,11 +8,11 @@
         <version>3.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>thymeleaf-validation</artifactId>
+    <groupId>softuni</groupId>
+    <artifactId>exam-prep-battleships</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>thymeleaf-validation</name>
-    <description>thymeleaf-validation</description>
+    <name>exam-prep-battleships</name>
+    <description>exam-prep-battleships</description>
     <properties>
         <java.version>17</java.version>
     </properties>
