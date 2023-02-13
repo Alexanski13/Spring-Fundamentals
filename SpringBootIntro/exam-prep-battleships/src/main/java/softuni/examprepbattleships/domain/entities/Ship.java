@@ -35,4 +35,10 @@ public class Ship {
 
     @ManyToOne
     private User user;
+
+    @Override
+    public String toString() {
+        String s = "| %s  | %s  | %s  |";
+        return String.format(s, this.name, this.health, this.power);
+    }
 }

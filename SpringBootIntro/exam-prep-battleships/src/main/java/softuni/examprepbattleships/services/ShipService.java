@@ -8,8 +8,11 @@ import softuni.examprepbattleships.domain.helpers.LoggedUser;
 import softuni.examprepbattleships.domain.models.CategoryModel;
 import softuni.examprepbattleships.domain.models.ShipModel;
 import softuni.examprepbattleships.domain.models.UserModel;
+import softuni.examprepbattleships.domain.models.binding.BattleShipsModel;
 import softuni.examprepbattleships.domain.models.binding.ShipAddModel;
 import softuni.examprepbattleships.repositories.ShipRepository;
+
+import java.util.List;
 
 @Service
 public class ShipService {
@@ -43,5 +46,23 @@ public class ShipService {
                 .build(), Ship.class);
 
         this.shipRepository.saveAndFlush(shipToSave);
+    }
+
+    public List<ShipModel> findAllByUserId(Long id) {
+        return this.shipRepository.findAllByUserId(id).orElseThrow()
+                .stream().map(ship -> this.modelMapper.map(ship, ShipModel.class)).toList();
+    }
+
+    public void fight(BattleShipsModel battleShipsModel) {
+        Ship loggedShip = this.shipRepository.findById(battleShipsModel.getLoggedUserShip()).orElseThrow();
+        Ship notLoggedShip = this.shipRepository.findById(battleShipsModel.getNotLoggedUserShip()).orElseThrow();
+
+        notLoggedShip.setHealth(notLoggedShip.getHealth() - loggedShip.getPower());
+
+        if (notLoggedShip.getHealth() <= 0) {
+            this.shipRepository.deleteById(battleShipsModel.getNotLoggedUserShip());
+        } else {
+            this.shipRepository.saveAndFlush(notLoggedShip);
+        }
     }
 }
