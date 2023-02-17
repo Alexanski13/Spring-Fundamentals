@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import softuni.battleships2.models.dtos.UserLoginDTO;
+import softuni.battleships2.models.dtos.LoginDTO;
 import softuni.battleships2.models.dtos.UserRegistrationDTO;
 import softuni.battleships2.services.AuthService;
 
@@ -16,6 +16,7 @@ import softuni.battleships2.services.AuthService;
 public class AuthController {
     private final AuthService authService;
 
+    @Autowired
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
@@ -27,8 +28,8 @@ public class AuthController {
     }
 
     @ModelAttribute("loginDTO")
-    public UserLoginDTO initLoginDTO() {
-        return new UserLoginDTO();
+    public LoginDTO initLoginDTO() {
+        return new LoginDTO();
     }
 
     @GetMapping("/register")
@@ -69,7 +70,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid UserLoginDTO loginDTO,
+    public String login(@Valid LoginDTO loginDTO,
                         BindingResult bindingResult,
                         RedirectAttributes redirectAttributes) {
         if (this.authService.isLoggedIn()) {

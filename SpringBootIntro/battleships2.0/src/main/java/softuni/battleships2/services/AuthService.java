@@ -1,8 +1,7 @@
 package softuni.battleships2.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import softuni.battleships2.models.dtos.UserLoginDTO;
+import softuni.battleships2.models.dtos.LoginDTO;
 import softuni.battleships2.models.entities.User;
 import softuni.battleships2.models.dtos.UserRegistrationDTO;
 import softuni.battleships2.repositories.UserRepository;
@@ -47,7 +46,7 @@ public class AuthService {
         return true;
     }
 
-    public boolean login(UserLoginDTO loginDTO) {
+    public boolean login(LoginDTO loginDTO) {
         Optional<User> user = this.userRepository
                 .findByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword());
 
