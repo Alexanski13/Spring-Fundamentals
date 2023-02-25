@@ -1,8 +1,10 @@
 package softuni.battleships2.models.dtos;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
-import softuni.battleships2.models.enums.ShipType;
 
 import java.time.LocalDate;
 
