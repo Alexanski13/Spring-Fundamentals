@@ -32,7 +32,7 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Offer> boughtOffers;
 
-    public void byeOffer(Offer offer){
+    public void buyOffer(Offer offer){
         this.boughtOffers.add(offer);
     }
 }

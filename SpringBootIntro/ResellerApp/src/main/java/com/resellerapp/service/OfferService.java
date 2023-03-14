@@ -82,7 +82,7 @@ public class OfferService {
 
         User user = this.userRepository.findById(buyerId).get();
 
-        user.byeOffer(offer);
+        user.buyOffer(offer);
 
         this.offerRepository.save(offer);
         this.userRepository.save(user);
